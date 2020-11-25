@@ -1,0 +1,16 @@
+#Below package already includes mosquitto broker elements for AARCH64 on Alpine, exposes port 1883, and kicks off mqtt 
+
+FROM eclipse-mosquitto
+
+#Workind directory
+WORKDIR /
+
+#utilities
+RUN echo -e "http://nl.alpinelinux.org/alpine/v3.9/main/" > /etc/apk/repositories
+
+#My edits are Below. Packages found via searching https://pkgs.alpinelinux.org/contents for necessary contents
+# however does not have bash installed. That is added below.
+RUN apk add bash
+
+#Removing temp containers
+RUN rm -f /tmp/*.deb

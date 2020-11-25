@@ -1,0 +1,25 @@
+FROM ubuntu
+
+#base URL for NVIDIA libs
+ARG URL=http://169.44.201.108:7002/jetpacks/4.3
+
+#Update packages from image
+RUN apt update
+
+#No requests for user input
+ARG DEBIAN_FRONTEND=noninteractive
+
+#Setting working directory
+WORKDIR /   
+
+#Installing Python & necessary libraries using apt to avoid conlficts w/ Linux
+RUN apt install -y python3.6 python3-pip python3-opencv mosquitto mosquitto-clients vim python3-numpy python3-setuptools
+
+#Installing paho-mqtt client
+RUN pip3 install paho-mqtt
+
+#Cleanup
+RUN apt -y autoremove
+RUN apt -y autoclean
+RUN rm -rf /var/cache/apt
+RUN rm -f /tmp/*.deb

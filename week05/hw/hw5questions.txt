@@ -1,0 +1,54 @@
+Questions:
+0. What's the structure of the network that's being used for classification? How good is it? Based on what you learned in homework 4, can you beat it? Hint: use something like this if you need an inspiration.
+Structure is Flatten>Dense>Dropout>Dense. With accuracy of 0.9771, this beats my best effort of 0.92398 w/ MLP on HW4.
+
+
+1. What is TensorFlow? Which company is the leading contributor to TensorFlow?
+	Per Wikipedia: TensorFlow is a free and open-source software library for dataflow and differentiable programming across a range of tasks. It is a symbolic math library, and is also used for machine learning applications such as neural networks.
+	TensorFlow was developed by the Google Brain team for internal Google use. It was released under the Apache License 2.0 on November 9, 2015.
+
+2. What is TensorRT? How is it different from TensorFlow?
+	Per developer.nvidia.com: NVIDIA TensorRT. NVIDIA TensorRT™ is a platform for high-performance deep learning inference. It includes a deep learning inference optimizer and runtime that delivers low latency and high-throughput for deep learning inference applications.
+	TensorRT can be an optimizer (for GPU usage) running atop TensorFlow.
+
+3. What is ImageNet? How many images does it contain? How many classes?
+	The ImageNet project is a large visual database designed for use in visual object recognition software research.
+	14M images. 20k classes.
+	
+4. Please research and explain the differences between MobileNet and GoogleNet (Inception) architectures.
+	Per mathworks.com:
+	GoogLeNet is a pretrained convolutional neural network that is 22 layers deep. You can load a network trained on either the ImageNet or Places365 data sets.
+	MobileNet-v2 is a convolutional neural network that is trained on more than a million images from the ImageNet database [1]. The network is 54 layers deep
+	Per quora.com:
+	As a comparison, GoogleNet is designed for edge applications where there is not an abundance of compute power.
+
+5. In your own words, what is a bottleneck?
+	A bottleneck is a neural net layer purposefully set with fewer neurons than the layers above and below. This helps avoid overfit by forcing training loss by means of feature reduction.
+	
+6. How is a bottleneck different from the concept of layer freezing?
+	Layer freezing is a way to ‘bank’ progress in model training by preventing back-propagation from disturbing a baseline teach. Layer freezing progresses (ie. dynamic) during the train process, whereas bottleneck is a static setting of the model. 
+
+7. In the TF1 lab, you trained the last layer (all the previous layers retain their already-trained state). Explain how the lab used the previous layers (where did they come from? how were they used in the process?)
+	The prior layers would have been freezed from prior training & then used as a processing engine for new data input.	
+
+8. How does a low --learning_rate (step 7 of TF1) value (like 0.005) affect the precision? How much longer does training take?
+	Excluding bottleneck, Learn rate did not have a significant effect either on duration (12-13 mins) or accuracy(88.7-89.2%). 
+
+9. How about a --learning_rate (step 7 of TF1) of 1.0? Is the precision still good enough to produce a usable graph?
+	Excluding bottleneck, Learn rate did not have a significant effect either on duration (12-13 mins) or accuracy(88.7-89.2%). 
+
+10. For step 8, you can use any images you like. Pictures of food, people, or animals work well. You can even use ImageNet images. How accurate was your model? Were you able to train it using a few images, or did you need a lot?
+	The Horses or Humans dataset (https://storage.googleapis.com/laurencemoroney-blog.appspot.com/horse-or-human.zip) trained to 100% accuracy!
+
+11. Run the TF1 script on the CPU (see instructions above) How does the training time compare to the default network training (section 4)? Why?
+	Excluding bottleneck, Longer by 2 mins. However, the bottleneck operation took much longer than GPU runs. The Jetson CPU does not have as much onboard memory as does the GPU.
+
+12. Try the training again, but this time do export ARCHITECTURE="inception_v3" Are CPU and GPU training times different?
+	GPU - 3min
+	CPU - 20min
+
+13. Given the hints under the notes section, if we trained Inception_v3, what do we need to pass to replace ??? below to the label_image script? Can we also glean the answer from examining TensorBoard?
+
+python -m scripts.label_image --input_layer=input1 --input_height=128 --input_width=128  --graph=tf_files/retrained_graph.pb --image=tf_files/flower_photos/daisy/21652746_cc379e0eea_m.jpg
+
+

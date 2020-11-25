@@ -1,0 +1,11 @@
+HW6 training times (h:mm:ss)
+
+V100 (1 EPOCH): 1:52:56
+V100 (2 EPOCH): 3:44:05
+P100 (1 EPOCH): 6:01:40	
+P100 (2 EPOCH): 12:02:35
+
+Note:
+* It is great scaling performance that 2 EPOCHs takes nearly exactly 2x the training time of 1 EPOCH.
+* 3x speed improvement using V100 relative to P100. This allows for info turns within a day, vs. overnight info turns, which are unattended. This is a compelling case for either using high performance servers or investigating distributed architectures. 
+* AUC reduced from 0.9699 (1 EPOCH) to 0.9697 (2 EPOCHs). This is surprising.  A survey of StackExchange user opinion showed root cause theories as: 1) overfit, 2) learn rate too high, 3) issues in output layer architecture.  
